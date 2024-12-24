@@ -1,78 +1,66 @@
-import { defineComponent } from 'vue'
-// import { getMeetup } from './meetupsService.ts'
+import {defineComponent, onMounted, ref, watchEffect} from 'vue/dist/vue.esm-bundler.js';
+import {getMeetup} from './meetupsService.ts';
+import {watch} from "vue";
 
 export default defineComponent({
-  name: 'SelectedMeetupApp',
+    name: 'SelectedMeetupApp',
 
-  setup() {},
+    setup() {
+        "use strict";
+        let page = ref(1);
+        let meetups = ref(null);
 
-  template: `
-    <div class="meetup-selector">
-      <div class="meetup-selector__control">
-        <button class="button button--secondary" type="button" disabled>Предыдущий</button>
+        watchEffect(async () => {
+            try {
+                meetups.value = await getMeetup(page.value);
+            } catch (error) {
+                console.error(error)
+            }
+        })
 
-        <div class="radio-group" role="radiogroup">
-          <div class="radio-group__button">
-            <input
-              id="meetup-id-1"
-              class="radio-group__input"
-              type="radio"
-              name="meetupId"
-              value="1"
-            />
-            <label for="meetup-id-1" class="radio-group__label">1</label>
-          </div>
-          <div class="radio-group__button">
-            <input
-              id="meetup-id-2"
-              class="radio-group__input"
-              type="radio"
-              name="meetupId"
-              value="2"
-            />
-            <label for="meetup-id-2" class="radio-group__label">2</label>
-          </div>
-          <div class="radio-group__button">
-            <input
-              id="meetup-id-3"
-              class="radio-group__input"
-              type="radio"
-              name="meetupId"
-              value="3"
-            />
-            <label for="meetup-id-3" class="radio-group__label">3</label>
-          </div>
-          <div class="radio-group__button">
-            <input
-              id="meetup-id-4"
-              class="radio-group__input"
-              type="radio"
-              name="meetupId"
-              value="4"
-            />
-            <label for="meetup-id-4" class="radio-group__label">4</label>
-          </div>
-          <div class="radio-group__button">
-            <input
-              id="meetup-id-5"
-              class="radio-group__input"
-              type="radio"
-              name="meetupId"
-              value="5"
-            />
-            <label for="meetup-id-5" class="radio-group__label">5</label>
-          </div>
-        </div>
+        return {
+            page,
+            meetups
+        };
+    },
 
-        <button class="button button--secondary" type="button">Следующий</button>
+    template: `
+      <div class="meetup-selector">
+          <div class="meetup-selector__control">
+            <button class="button button--secondary" type="button"
+                    :disabled="page <= 1"
+                    @click="page--"
+                    disabled>Предыдущий
+            </button>
+    
+            <div class="radio-group" role="radiogroup">
+              <template v-for="pager in 5">
+                <div class="radio-group__button">
+                  <input
+                      :id="'meetup-id-' + pager"
+                      class="radio-group__input"
+                      type="radio"
+                      name="meetupId"
+                      :value="pager"
+                      v-model="page"
+                  />
+                  <label :for="'meetup-id-' + pager" class="radio-group__label">{{ pager }}</label>
+                </div>
+              </template>
+            </div>
+    
+            <button class="button button--secondary" type="button"
+                    :disabled="page >= 5"
+                    @click="page++"
+            >Следующий
+            </button>
+          </div>
+    
+          <div class="meetup-selector__cover" v-if="meetups">
+            <div class="meetup-cover">
+              <h1 class="meetup-cover__title">{{ meetups.title }}</h1>
+            </div>
+          </div>
       </div>
-
-      <div class="meetup-selector__cover">
-        <div class="meetup-cover">
-          <h1 class="meetup-cover__title">Some Meetup Title</h1>
-        </div>
-      </div>
-
-    </div>
-  `,
-})
+    `,
+});
