@@ -8,13 +8,13 @@ export default defineComponent({
         let result = computed(() => {
             switch (action.value) {
                 case 'sum':
-                    return Number(leftOperand.value) + Number(rightOperand.value);
+                    return leftOperand.value + rightOperand.value;
                 case 'subtract':
-                    return Number(leftOperand.value) - Number(rightOperand.value);
+                    return leftOperand.value - rightOperand.value;
                 case 'multiply':
-                    return Number(leftOperand.value) * Number(rightOperand.value);
+                    return leftOperand.value * rightOperand.value;
                 case 'divide':
-                    return Number(leftOperand.value) / Number(rightOperand.value);
+                    return leftOperand.value / rightOperand.value;
                 default:
                     return 0;
             }

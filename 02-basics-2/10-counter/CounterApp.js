@@ -20,7 +20,7 @@ export default defineComponent({
         @click="count--"
       >➖</button>
 
-      <span class="count" data-testid="count">{{count}}</span>
+      <span class="count" data-testid="count">{{ count }}</span>
 
       <button
         class="button button--secondary"

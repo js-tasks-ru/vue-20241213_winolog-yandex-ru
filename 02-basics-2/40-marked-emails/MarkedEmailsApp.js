@@ -1,4 +1,4 @@
-import {computed, defineComponent, ref, watchEffect} from 'vue/dist/vue.esm-bundler.js'
+import {computed, defineComponent, ref, watchEffect} from 'vue/dist/vue.esm-bundler.js';
 
 // Значения взяты из https://jsonplaceholder.typicode.com/comments
 export const emails = [
@@ -27,24 +27,22 @@ export const emails = [
     'Sophia@arianna.co.uk',
     'Jeffery@juwan.us',
     'Isaias_Kuhic@jarrett.net',
-]
+];
 
 export default defineComponent({
     name: 'MarkedEmailsApp',
 
     setup() {
-        let search = ref('');
-        let baseEmails = ref(emails);
-        let resultEmails = ref([]);
+        const search = ref('');
+        const baseEmails = ref(emails);
 
-        watchEffect(() => {
-            resultEmails.value = search.value
-                ? baseEmails.value.map(email => {
+        const resultEmails = computed(() => {
+            return search.value ? baseEmails.value.map(email => {
                     const isMatch = email.includes(search.value);
                     return { email, isMatch };
                 })
                 : baseEmails.value.map(email => ({ email, isMatch: false }));
-        })
+        });
 
         return {
             baseEmails,
@@ -59,11 +57,10 @@ export default defineComponent({
         <input type="search" v-model="search" aria-label="Search"/>
       </div>
       <ul aria-label="Emails">
-        <li v-for="result in resultEmails" :class="result.isMatch ? 'marked' : ''">
+        <li v-for="result in resultEmails" :class="{ marked: result.isMatch }">
           {{ result.email }}
         </li>
-
       </ul>
       </div>
     `,
-})
+});
