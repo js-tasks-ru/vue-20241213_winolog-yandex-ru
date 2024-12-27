@@ -1,26 +1,52 @@
-import { defineComponent } from 'vue'
+import {defineComponent, ref} from 'vue/dist/vue.esm-bundler.js'
+import {computed} from "vue";
 
 export default defineComponent({
-  name: 'CalculatorApp',
+    name: 'CalculatorApp',
 
-  setup() {},
+    setup() {
+        let result = computed(() => {
+            switch (action.value) {
+                case 'sum':
+                    return leftOperand.value + rightOperand.value;
+                case 'subtract':
+                    return leftOperand.value - rightOperand.value;
+                case 'multiply':
+                    return leftOperand.value * rightOperand.value;
+                case 'divide':
+                    return leftOperand.value / rightOperand.value;
+                default:
+                    return 0;
+            }
+        })
 
-  template: `
-    <div class="calculator">
-      <input type="number" aria-label="First operand" />
+        let leftOperand = ref(0);
+        let rightOperand = ref(0);
+        let action = ref(null);
+        return {
+            action,
+            leftOperand,
+            rightOperand,
+            result,
+        }
+    },
+
+    template: `
+      <div class="calculator">
+      <input type="number" aria-label="First operand" v-model="leftOperand"/>
 
       <div class="calculator__operators">
-        <label><input type="radio" name="operator" value="sum"/>➕</label>
-        <label><input type="radio" name="operator" value="subtract"/>➖</label>
-        <label><input type="radio" name="operator" value="multiply"/>✖</label>
-        <label><input type="radio" name="operator" value="divide"/>➗</label>
+        <label><input type="radio" v-model="action" name="operator" value="sum"/>➕</label>
+        <label><input type="radio" v-model="action" name="operator" value="subtract"/>➖</label>
+        <label><input type="radio" v-model="action" name="operator" value="multiply"/>✖</label>
+        <label><input type="radio" v-model="action" name="operator" value="divide"/>➗</label>
       </div>
 
-      <input type="number" aria-label="Second operand" />
+      <input type="number" aria-label="Second operand" v-model="rightOperand"/>
 
       <div>=</div>
 
-      <output>0</output>
-    </div>
-  `,
+      <output>{{ result }}</output>
+      </div>
+    `,
 })
