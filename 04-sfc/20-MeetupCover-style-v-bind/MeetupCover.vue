@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import {computed} from 'vue'
 
 const props = defineProps({
   title: {
@@ -8,19 +8,23 @@ const props = defineProps({
 
   image: {
     type: String,
+    default: undefined,
   },
 })
 
-const bgStyle = computed(() => (props.image ? { '--bg-url': `url('${props.image}')` } : undefined))
 </script>
 
 <template>
-  <div class="meetup-cover" :style="bgStyle">
+  <div class="meetup-cover meetup-bg-image">
     <h1 class="meetup-cover__title">{{ title }}</h1>
   </div>
 </template>
 
 <style scoped>
+.meetup-bg-image {
+  background-image: v-bind(image);
+}
+
 .meetup-cover {
   background-size: cover;
   background-position: center;
