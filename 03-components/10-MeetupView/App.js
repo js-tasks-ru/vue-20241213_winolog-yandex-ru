@@ -1,7 +1,7 @@
-import { computed, defineComponent, ref } from 'vue'
-import { UiRadioGroup } from '@shgk/vue-course-ui'
-import MeetupView from './MeetupView.js'
-import meetups from './meetups.fixture.ts'
+import { computed, defineComponent, ref } from 'vue/dist/vue.esm-bundler.js';
+import { UiRadioGroup } from '@shgk/vue-course-ui';
+import MeetupView from './MeetupView.js';
+import meetups from './meetups.fixture.ts';
 
 export default defineComponent({
   name: 'App',
@@ -12,14 +12,15 @@ export default defineComponent({
   },
 
   setup() {
-    const meetupIndex = ref(0)
-    const meetup = computed(() => meetups[meetupIndex.value])
-    const options = meetups.map((_, index) => ({ label: index + 1, value: index }))
+    const meetupIndex = ref(0);
+    const meetup = computed(() => meetups[meetupIndex.value]);
+    const options = meetups.map((_, index) => ({ label: index + 1, value: index }));
+
     return {
       options,
       meetupIndex,
       meetup,
-    }
+    };
   },
 
   template: `

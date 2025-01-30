@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue/dist/vue.esm-bundler.js'
 import './MeetupDescription.css'
 
 export default defineComponent({
