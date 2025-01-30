@@ -19,7 +19,7 @@ export default defineComponent({
 
     <ul class="weather-list unstyled-list" v-for="item in weatherData">
       <li class="weather-card" :class="{'weather-card--night': item.current.dt < item.current.sunrise || item.current.dt > item.current.sunset}" >
-       <UiAlert v-if="item.alert"/>
+       <UiAlert v-if="item.alert" :alert-item="item.alert"/>
         <div>
           <h2 class="weather-card__name">
             {{ item.geographic_name }}

@@ -1,5 +1,5 @@
 import {defineComponent, ref} from 'vue/dist/vue.esm-bundler.js';
-import {watchEffect} from "vue";
+import {onUnmounted} from "vue";
 
 export default defineComponent({
     name: 'UiClock',
@@ -13,10 +13,8 @@ export default defineComponent({
         intervalId = setInterval(updateTime, 1000);
         time.value = new Date().toLocaleTimeString(navigator.language, {timeStyle: 'medium'});
 
-        watchEffect((onInvalidate) => {
-            onInvalidate(() => {
-                clearInterval(intervalId);
-            });
+        onUnmounted(() => {
+            clearInterval(intervalId);
         });
 
         return {
@@ -24,5 +22,6 @@ export default defineComponent({
         };
     },
 
-    template: `<div class="clock">{{ time }}</div>`,
+    template: `
+      <div class="clock">{{ time }}</div>`,
 })

@@ -3,7 +3,7 @@ import { getWeatherData, WeatherConditionIcons } from './weather.service.ts'
 
 export default defineComponent({
     name: 'UiDetail',
-    setup(props = {}) {
+    setup(props) {
         return {
             weatherConditionIcons: WeatherConditionIcons
         }

@@ -8,9 +8,6 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    index:{
-      type: Number
-    },
     marked: {
       type: Boolean,
       default: false,
