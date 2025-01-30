@@ -1,24 +1,21 @@
 <script setup>
-import { computed } from 'vue';
+import {computed} from 'vue'
 
 const props = defineProps({
   title: {
     type: String,
-    required: true,
   },
+
   image: {
     type: String,
-    default: '',
+    default: undefined,
   },
-});
-
-const backgroundImage = computed(() => {
-  return props.image ? `linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${props.image})` : 'var(--default-cover)';
-});
+})
+const imageStyle = computed(() => (props.image ? `url('${props.image}')` : 'var(--default-cover)'))
 </script>
 
 <template>
-  <div class="meetup-cover" :style="{ backgroundImage }">
+  <div class="meetup-cover">
     <h1 class="meetup-cover__title">{{ title }}</h1>
   </div>
 </template>
@@ -27,6 +24,9 @@ const backgroundImage = computed(() => {
 .meetup-cover {
   background-size: cover;
   background-position: center;
+  /* Если изображение присутствует - берём его из CSS переменной, установленной на элемент в шаблоне */
+  /* Иначе выводим изображение по умолчанию - var(--default-cover) */
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), v-bind(imageStyle);
   display: flex;
   flex-direction: column;
   align-items: center;
