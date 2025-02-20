@@ -1,23 +1,55 @@
-import { defineComponent } from 'vue'
-import { UiButton } from '@shgk/vue-course-ui'
-import './UiCounter.css'
+import { defineComponent, ref, watch } from 'vue/dist/vue.esm-bundler.js';
+import { UiButton } from '@shgk/vue-course-ui';
+import './UiCounter.css';
 
 export default defineComponent({
-  name: 'UiCounter',
+    name: 'UiCounter',
 
-  components: {
-    UiButton,
-  },
+    components: {
+        UiButton,
+    },
 
-  setup() {
-    // Рекомендуется для практики реализовать обработку событий внутри setup, а не непосредственно в шаблоне
-  },
+    emits: ['update:count'],
 
-  template: `
-    <div class="counter">
-      <UiButton aria-label="Decrement" disabled>➖</UiButton>
-      <span class="count" data-testid="count">3</span>
-      <UiButton aria-label="Increment">➕</UiButton>
-    </div>
-  `,
-})
+    setup(props, { emit }) {
+        const { min, max } = props;
+        const countInner = ref(props.count);
+
+        const updateCount = (newCount) => {
+            countInner.value = newCount;
+            emit('update:count', newCount);
+        };
+
+        watch(() => props.count, (newCount) => {
+            countInner.value = newCount;
+        });
+
+        return {
+            countInner,
+            updateCount,
+        };
+    },
+
+    props: {
+        min: {
+            type: Number,
+            default: 0
+        },
+        count: {
+            type: Number,
+            default: 0
+        },
+        max: {
+            type: Number,
+            default: Infinity
+        },
+    },
+
+    template: `
+      <div class="counter">
+        <UiButton aria-label="Decrement" :disabled="countInner <= min" @click="updateCount(countInner - 1)">➖</UiButton>
+        <span class="count" data-testid="count">{{ countInner }}</span>
+        <UiButton aria-label="Increment" :disabled="countInner >= max" @click="updateCount(countInner + 1)">➕</UiButton>
+      </div>
+    `,
+});

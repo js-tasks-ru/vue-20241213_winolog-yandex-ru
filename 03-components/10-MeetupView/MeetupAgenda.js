@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue/dist/vue.esm-bundler.js'
 import MeetupAgendaItem from './MeetupAgendaItem.js'
 import './MeetupAgenda.css'
 
@@ -19,7 +19,7 @@ export default defineComponent({
   template: `
     <ul class="agenda">
       <li v-for="agendaItem in agenda" :key="agendaItem.id" class="agenda__item">
-        <MeetupAgendaItem :agenda-item="agendaItem" />
+        <MeetupAgendaItem  :agenda-item="agendaItem" />
       </li>
     </ul>
   `,

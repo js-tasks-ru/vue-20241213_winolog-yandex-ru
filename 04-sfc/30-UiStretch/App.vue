@@ -10,15 +10,15 @@ import UiStretch from './UiStretch.vue'
       </UiStretch>
 
       <UiStretch class="sample">
-        <img src="https://picsum.photos/400/300" alt="" />
+        <img src="https://placehold.jp/400x400.png?text=LOOOL" alt="" />
       </UiStretch>
 
       <UiStretch class="sample">
-        <img src="https://picsum.photos/200/200" alt="" />
+        <img src="https://placehold.jp/200x200.png?text=LOOOL 2" alt="" />
       </UiStretch>
 
       <UiStretch class="sample">
-        <img src="https://picsum.photos/300/400" alt="" />
+        <img src="https://placehold.jp/300x400.png?text=many LOOOL" alt="" />
       </UiStretch>
 
       <UiStretch class="sample">

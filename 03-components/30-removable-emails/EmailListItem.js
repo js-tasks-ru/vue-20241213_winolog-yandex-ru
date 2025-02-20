@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue/dist/vue.esm-bundler.js';
 
 export default defineComponent({
   name: 'EmailListItem',
@@ -8,17 +8,19 @@ export default defineComponent({
       type: String,
       required: true,
     },
-
     marked: {
       type: Boolean,
       default: false,
     },
+
+    emits: ['remove-element'],
   },
+
 
   template: `
     <li :class="{ marked }">
       {{ email }}
-      <button type="button" aria-label="Удалить" @click.stop>❌</button>
+      <button type="button" aria-label="Удалить" @click.stop="$emit('remove-element')">❌</button>
     </li>
   `,
-})
+});
